@@ -2,10 +2,10 @@ package main;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class View {
@@ -13,37 +13,37 @@ public class View {
 	/**
 	 * Height of window.
 	 */
-	private final static double height = 545;
+	private final static double height = Screen.getPrimary().getBounds().getMaxY() - 70;
 
 	/**
 	 * Width of window.
 	 */
-	private static final double width = 1024;
+	private final static double width = Screen.getPrimary().getBounds().getMaxX();
 
 	/**
 	 * Number of natural keys in an octave.
 	 */
-	private final static int natNum = 8;
+	private final static int natNum = 10;
 
 	/**
 	 * Number of flat/sharp keys.
 	 */
-	private final static int flatSharpNum = 5;
+	private final static int flatSharpNum = 7;
 
 	/**
 	 * Width of a white key.
 	 */
-	private double keyWidth;
+	private static double keyWidth;
 
 	/**
 	 * Width of a black key;
 	 */
-	private double upWidth;
+	private static double upWidth;
 
 	/**
 	 * Height of a black key.
 	 */
-	private double upHeight;
+	private static double upHeight;
 
 	private Group root;
 	private Scene theScene;
@@ -66,6 +66,14 @@ public class View {
 		this.upWidth = keyWidth / 2;
 		this.upWidth = this.height / 2;
 		this.fp = new FlowPane();
+		for (Naturals k : Naturals.values()) {
+			root.getChildren().add(k.getPath());
+		}
+		for (FlatSharps fs : FlatSharps.values()){
+			Path p = fs.getPath();
+			p.setFill(Color.BLACK);
+			root.getChildren().add(p);
+		}
 	}
 
 	/**
@@ -73,7 +81,7 @@ public class View {
 	 * 
 	 * @return Width of a white key.
 	 */
-	public double getKeyWidth() {
+	public static double getKeyWidth() {
 		return keyWidth;
 	}
 
@@ -82,7 +90,7 @@ public class View {
 	 * 
 	 * @return Width of a black key.
 	 */
-	public double getUpWidth() {
+	public static double getUpWidth() {
 		return upWidth;
 	}
 
@@ -91,7 +99,7 @@ public class View {
 	 * 
 	 * @return Height of black key.
 	 */
-	public double getUpHeight() {
+	public static double getUpHeight() {
 		return upHeight;
 	}
 
@@ -100,7 +108,7 @@ public class View {
 	 * 
 	 * @return Height of window.
 	 */
-	public double getHeight() {
+	public static double getHeight() {
 		return height;
 	}
 
@@ -109,7 +117,7 @@ public class View {
 	 * 
 	 * @return Width of window.
 	 */
-	public double getWidth() {
+	public static double getWidth() {
 		return width;
 	}
 
