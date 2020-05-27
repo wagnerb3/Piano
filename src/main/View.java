@@ -1,8 +1,9 @@
 package main;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.stage.Screen;
@@ -47,7 +48,6 @@ public class View {
 
 	private Group root;
 	private Scene theScene;
-	private FlowPane fp;
 
 	/**
 	 * Sets the stage.
@@ -62,18 +62,35 @@ public class View {
 		this.root = new Group();
 		this.theScene = new Scene(root);
 		theStage.setScene(theScene);
-		this.keyWidth = width / natNum;
-		this.upWidth = keyWidth / 2;
-		this.upWidth = this.height / 2;
-		this.fp = new FlowPane();
-		for (Naturals k : Naturals.values()) {
-			root.getChildren().add(k.getPath());
+		View.keyWidth = width / natNum;
+		View.upWidth = keyWidth / 2;
+		View.upWidth = View.height / 2;
+		for (Naturals n : Naturals.values()) {
+			Path p = n.getPath();
+			p.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent me) {
+					printKey(n.name());
+				}
+			});
+			p.setFill(Color.WHITE);
+			root.getChildren().add(p);
 		}
 		for (FlatSharps fs : FlatSharps.values()){
 			Path p = fs.getPath();
+			p.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent me) {
+					printKey(fs.name());
+				}
+			});
 			p.setFill(Color.BLACK);
 			root.getChildren().add(p);
 		}
+	}
+	
+	public static void printKey(String key) {
+		System.out.println(key + " was pressed.");
 	}
 
 	/**
