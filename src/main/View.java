@@ -1,9 +1,5 @@
 package main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
