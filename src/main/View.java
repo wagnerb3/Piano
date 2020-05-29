@@ -1,5 +1,15 @@
 package main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -65,32 +75,31 @@ public class View {
 		View.keyWidth = width / natNum;
 		View.upWidth = keyWidth / 2;
 		View.upWidth = View.height / 2;
-		for (Naturals n : Naturals.values()) {
-			Path p = n.getPath();
+		for (Key k : Key.values()) {
+			Path p = k.getPath();
 			p.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent me) {
-					printKey(n.name());
+					printKey(k);
 				}
 			});
-			p.setFill(Color.WHITE);
-			root.getChildren().add(p);
-		}
-		for (FlatSharps fs : FlatSharps.values()){
-			Path p = fs.getPath();
-			p.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent me) {
-					printKey(fs.name());
-				}
-			});
-			p.setFill(Color.BLACK);
+			p.setFill(k.getColor());
 			root.getChildren().add(p);
 		}
 	}
 	
-	public static void printKey(String key) {
-		System.out.println(key + " was pressed.");
+	public static void printKey(Key k) {
+		try {
+		AudioInputStream stream = AudioSystem.getAudioInputStream(k.getFile());
+	    AudioFormat format = stream.getFormat();
+	    DataLine.Info info = new DataLine.Info(Clip.class, format);
+	    Clip clip = (Clip) AudioSystem.getLine(info);
+	    clip.open(stream);
+	    clip.start();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
